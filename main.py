@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-
+from fastapi.staticfiles import StaticFiles
 from qdrant_utils import keyword_then_semantic_rerank
 from vllm_utils import (
     call_vllm_generate_search_condition,
@@ -11,6 +11,7 @@ from vllm_utils import (
 import json
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
@@ -35,7 +36,7 @@ async def document_search(request: Request):
     keywords = clean_llm_keywords(raw_keywords)
     print(f"✅ 정제된 키워드 리스트: {keywords}")
 
-    document_list = keyword_then_semantic_rerank(user_question, keywords, top_k=10)
+    document_list = keyword_then_semantic_rerank(user_question, keywords, top_k=30)
 
     print(f"\n📄 검색 결과 개수: {len(document_list)}")
 

@@ -28,7 +28,7 @@ KEYWORD_FILTER_FIELDS = [
 ]
 
 # ✅ 단일 키워드 검색
-def keyword_search_single(keyword: str, top_k: int = 50) -> Tuple[Set, Dict, str]:
+def keyword_search_single(keyword: str, top_k: int = 30) -> Tuple[Set, Dict, str]:
     keyword_type = "none"
     query_filter = None
 
@@ -160,7 +160,7 @@ def keyword_then_semantic_rerank(question: str, keywords: List[str], top_k: int 
     return sorted(reranked, key=lambda x: x["score"], reverse=True)[:top_k]
 
 # ✅ 의미 기반 벡터 검색 (Qdrant 벡터 직접 활용)
-def semantic_vector_search(question: str, top_k: int = 10):
+def semantic_vector_search(question: str, top_k: int = 30):
     query_vector = encode_and_clear([question])[0]
     results = qdrant_client.search(
         collection_name=collection_name,

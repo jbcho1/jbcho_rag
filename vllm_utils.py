@@ -68,12 +68,12 @@ def clean_llm_keywords(raw_text: str) -> list:
 # ✅ 4️⃣ 뉴스 기사 요약 함수
 def call_vllm_summarize_article(article_text, user_question=None):
     cleaned_text = clean_article_text(article_text)
-    prompt = f"""다음은 뉴스 기사입니다. 본문의 핵심 내용을 3~5문장으로 요약하세요.
+    prompt = f"""다음은 뉴스 기사입니다. 본문의 핵심 정보만 간결하게 3문장 이내로 정리할 것.
 
 조건:
-- 문장 반복 금지
 - "요약" 이라는 단어를 사용 금지
-- 문법과 어휘를 유연하게
+- 요약을 작성하되, 같은 사실이나 숫자를 반복하지 말 것.
+
 
 [본문]
 {cleaned_text}
